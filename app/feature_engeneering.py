@@ -72,7 +72,7 @@ class FeatureTargetEncoding:
                         from `%s`
                         where date(timestamp_micros(event_tmstp)) > DATE_SUB(current_date(), INTERVAL %s DAY) ) t1 
                     left join ( select feature_value, smooth_BH_value 
-                                from `%s` where feature_name = '%s' ) t2 on cast(t2.feature_value as string) = cast(t1.%s as string ))\
+                                from `%s` where feature_name = '%s' ) t2 on cast(t2.feature_value as string) = cast(t1.%s as string ))
                       group by 1"""  %(feature_name, float(os.getenv('averaging_value_parameter')), feature_name, feature_name, feature_name, feature_name, os.getenv('daily_table_for_scoring_evaluate'), os.getenv('table_list_of_bh_feature_values'), self.days, feature_name, feature_name)
                 df_feature = self.client.query(query_string).result().to_dataframe(create_bqstorage_client=True)
                 df_to_insert[str(feature_name)] = df_to_insert[str(feature_name)].astype(str)
